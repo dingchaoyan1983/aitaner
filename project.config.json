@@ -2,7 +2,7 @@
   "miniprogramRoot": "./dist",
   "projectname": "aitaner",
   "description": "爱摊儿",
-  "appid": "touristappid",
+  "appid": "wx39c36dbeed0f8612",
   "setting": {
     "urlCheck": true,
     "es6": false,

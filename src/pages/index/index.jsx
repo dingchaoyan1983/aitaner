@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { View, Button, Text } from '@tarojs/components'
-
-import { add, minus, asyncAdd } from '../../actions/counter'
-
+import { View } from '@tarojs/components'
+import { AtSearchBar } from 'taro-ui'
+import { Swiper, SwiperItem } from '@tarojs/components'
+import { AtTabs, AtTabsPane } from 'taro-ui'
 import './index.less'
 
 
@@ -32,13 +32,41 @@ class Index extends Component {
   componentDidHide () { }
 
   render () {
+    const tabList = [{ title: '摊主互租' }, { title: '兼职招聘' }, { title: '摊位招租' }]
     return (
       <View className='index'>
-        <Button className='add_btn' onClick={this.props.add}>+</Button>
-        <Button className='dec_btn' onClick={this.props.dec}>-</Button>
-        <Button className='dec_btn' onClick={this.props.asyncAdd}>async</Button>
-        <View><Text>{this.props.counter.num}</Text></View>
-        <View><Text>Hello, World</Text></View>
+        <AtSearchBar
+          placeholder="请输入关键字查询信息..."
+        />
+        <Swiper
+          className='test-h'
+          indicatorColor='#999'
+          indicatorActiveColor='#333'
+          circular
+          indicatorDots
+          autoplay>
+          <SwiperItem>
+            <View className='demoText'>1</View>
+          </SwiperItem>
+          <SwiperItem>
+            <View className='demoText'>2</View>
+          </SwiperItem>
+          <SwiperItem>
+            <View className='demoText'>3</View>
+          </SwiperItem>
+        </Swiper>
+        <AtTabs tabList={tabList}>
+          <AtTabsPane index={0} >
+            <View style='padding: 100px 50px;background-color: #FAFBFC;text-align: center;' >标签页一的内容</View>
+          </AtTabsPane>
+          <AtTabsPane index={1}>
+            <View style='padding: 100px 50px;background-color: #FAFBFC;text-align: center;'>标签页二的内容</View>
+          </AtTabsPane>
+          <AtTabsPane index={2}>
+            <View style='padding: 100px 50px;background-color: #FAFBFC;text-align: center;'>标签页三的内容</View>
+          </AtTabsPane>
+        </AtTabs>
+
       </View>
     )
   }
