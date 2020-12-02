@@ -4,7 +4,7 @@ import { View, Button, Text } from '@tarojs/components'
 
 import { add, minus, asyncAdd } from '../../actions/counter'
 
-import './index.less'
+import style from './index.less'
 
 
 @connect(({ counter }) => ({
@@ -33,7 +33,7 @@ class Index extends Component {
 
   render () {
     return (
-      <View className='index'>
+      <View className={style.Index}>
         <Button className='add_btn' onClick={this.props.add}>+</Button>
         <Button className='dec_btn' onClick={this.props.dec}>-</Button>
         <Button className='dec_btn' onClick={this.props.asyncAdd}>async</Button>

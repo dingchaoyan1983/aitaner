@@ -1,11 +1,14 @@
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
-import { View } from '@tarojs/components'
-import { AtSearchBar } from 'taro-ui'
-import { Swiper, SwiperItem } from '@tarojs/components'
-import { AtTabs, AtTabsPane } from 'taro-ui'
-import './index.less'
+import React, { Component } from 'react';
+import Taro from '@tarojs/api';
+import { connect } from 'react-redux';
+import { View, ScrollView, Image } from '@tarojs/components';
+import { AtSearchBar } from 'taro-ui';
+import { Swiper, SwiperItem } from '@tarojs/components';
+import { AtTabs, AtTabsPane } from 'taro-ui';
+import style from  './index.less';
+import Message from '../../components/message';
 
+const FIXED_HEIGHT = 240;
 
 @connect(({ counter }) => ({
   counter
@@ -21,6 +24,29 @@ import './index.less'
   }
 }))
 class Index extends Component {
+  constructor(...args) {
+    super(...args);
+    this.sysInfo = Taro.getSystemInfoSync();
+    this.tabList = [{ title: '热门' }, { title: '摊主互租' }, { title: '兼职招聘' }, { title: '摊位招租' }];
+    this.scrollHeight = this.sysInfo.windowHeight - FIXED_HEIGHT;
+    this.state = {
+      current: 0,
+      keywords: ''
+    }
+  }
+
+  handleClick = (value) => {
+    this.setState({
+      current: value
+    })
+  }
+
+  onChangeKeywords = (value) => {
+    this.setState({
+      keywords: value,
+    });
+  }
+
   componentWillReceiveProps (nextProps) {
     console.log(this.props, nextProps)
   }
@@ -32,41 +58,60 @@ class Index extends Component {
   componentDidHide () { }
 
   render () {
-    const tabList = [{ title: '摊主互租' }, { title: '兼职招聘' }, { title: '摊位招租' }]
     return (
-      <View className='index'>
+      <View className={style.Index}>
         <AtSearchBar
+          value={this.state.keywords}
           placeholder="请输入关键字查询信息..."
+          onChange={this.onChangeKeywords}
         />
         <Swiper
-          className='test-h'
-          indicatorColor='#999'
-          indicatorActiveColor='#333'
           circular
-          indicatorDots
           autoplay>
           <SwiperItem>
-            <View className='demoText'>1</View>
+            <Image className={style.Image} src="https://resources.betalpha.com/letter/research1.jpg"></Image>
+          </SwiperItem>
+          {/* <SwiperItem>
+            <Image className={style.Image} src="https://resources.betalpha.com/letter/research2.jpg"></Image>
           </SwiperItem>
           <SwiperItem>
-            <View className='demoText'>2</View>
-          </SwiperItem>
-          <SwiperItem>
-            <View className='demoText'>3</View>
-          </SwiperItem>
+            <Image className={style.Image} src="https://resources.betalpha.com/letter/research3.jpg"></Image>
+          </SwiperItem> */}
         </Swiper>
-        <AtTabs tabList={tabList}>
-          <AtTabsPane index={0} >
-            <View style='padding: 100px 50px;background-color: #FAFBFC;text-align: center;' >标签页一的内容</View>
+        <AtTabs
+          tabList={this.tabList}
+          current={this.state.current}
+          onClick={this.handleClick}
+        >
+          <AtTabsPane current={this.state.current} index={0}>
+            <ScrollView scrollY style={{height: this.scrollHeight}}>
+              {
+                [0,1,2,3,4,5,6,7,8,9].map(() => <Message title="[热门]xxxxxxx"/>)
+              }
+            </ScrollView>
           </AtTabsPane>
-          <AtTabsPane index={1}>
-            <View style='padding: 100px 50px;background-color: #FAFBFC;text-align: center;'>标签页二的内容</View>
+          <AtTabsPane current={this.state.current} index={1}>
+            <ScrollView scrollY style={{height: this.scrollHeight}}>
+              {
+                [0,1,2,3,4,5,6,7,8,9].map(() => <Message title="[摊位转租]xxxxxxx"/>)
+              }
+            </ScrollView>
           </AtTabsPane>
-          <AtTabsPane index={2}>
-            <View style='padding: 100px 50px;background-color: #FAFBFC;text-align: center;'>标签页三的内容</View>
+          <AtTabsPane current={this.state.current} index={2}>
+            <ScrollView scrollY style={{height: this.scrollHeight}}>
+              {
+                [0,1,2,3,4,5,6,7,8,9].map(() => <Message title="[兼职招聘]xxxxxxx"/>)
+              }
+            </ScrollView>
+          </AtTabsPane>
+          <AtTabsPane current={this.state.current} index={3}>
+            <ScrollView scrollY style={{height: this.scrollHeight}}>
+              {
+                [0,1,2,3,4,5,6,7,8,9].map(() => <Message title="[摊位招租]xxxxxxx"/>)
+              }
+            </ScrollView>
           </AtTabsPane>
         </AtTabs>
-
       </View>
     )
   }
