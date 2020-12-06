@@ -2,6 +2,12 @@
 .Root {
   flex-direction: column;
   width: 100%;
+
+  :global {
+    .at-list__item::after {
+      left: 0 !important;
+    }
+  }
 }
 
 .Image {
@@ -43,10 +49,4 @@
   flex: auto;
   padding: 0;
   margin-left: 25rpx;
-}
-
-:global {
-  .at-list__item::after {
-    left: 0 !important;
-  }
 }

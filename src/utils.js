@@ -1,6 +1,12 @@
 import Taro from '@tarojs/api';
 
 export const identity = (_) => _;
+export const dayPattern = 'YYYY-MM-DD';
+export const timePattern = 'HH:mm';
+export const dayTimePattern = `${dayPattern} ${timePattern}`;
+export const isEmpty = (value) => {
+  return value === undefined || value === null || value.toLowerCase() === 'undefined' || value.toLowerCase() === 'null';
+}
 
 export const navigateBack = (params) => {
   const sourcePage = Taro.getCurrentPages().slice(-2,-1)[0];

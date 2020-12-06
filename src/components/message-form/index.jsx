@@ -1,18 +1,18 @@
 
 import React, { useCallback, useRef } from 'react';
-import { useDidShow, getCurrentInstance } from '@tarojs/taro';
-import { connect } from 'react-redux';
+import { useDidShow } from '@tarojs/taro';
 import Taro from '@tarojs/api';
 import dayjs from 'dayjs';
 import { View, Image, Swiper, SwiperItem, Picker} from '@tarojs/components';
 import { AtList, AtListItem, AtInput, AtIcon } from "taro-ui";
 import ImagePicker from '../image-picker';
-import { identity } from '../../utils';
+import { identity, dayTimePattern, getCallbackParams } from '../../utils';
+import style from './index.less';
 
 const activityCategories = [{ id: 'fairs', name: '摊位招租' }, { id: 'recruitments', name: '兼职招聘' }, { id: 'stalls', name: '摊位转租' }];
 
 export default ({
-  titleKey='name',
+  categoryKey='name',
   images=[],
   onChooseImages=identity,
   selectedCategory = {},
@@ -21,22 +21,33 @@ export default ({
   endTime,
   onSelectStartTime=identity,
   onSelectEndTime=identity,
+  title,
+  onChangeTitle=identity,
 }) => {
-  const 
-  const currentInstance = useRef();
   useDidShow(() => {
-    currentInstance.current = getCurrentInstance();
+    getCallbackParams((params) => {
+      if (params.key === 'startTime') {
+        onSelectStartTime(params.value);
+      }
+      if (params.key === 'endTime') {
+        onSelectEndTime(params.value);
+      }
+    });
   });
-  selectStartTime = useCallback(() => {
+  const selectStartTime = useCallback(() => {
     Taro.navigateTo({
-      url: `/pages/time-picker/index?time=${startTime}&callback=${currentInstance.current.router.path}`
+      url: `/pages/time-picker/index?key=startTime&time=${startTime}`
     })
-  }, [onSelectStartTime]);
-  selectEndTime = useCallback(() => {
+  }, [startTime]);
+  const selectEndTime = useCallback(() => {
     Taro.navigateTo({
-      url: `/pages/time-picker/index?time=${endTime}&callback=${currentInstance.current.router.path}`
+      url: `/pages/time-picker/index?key=endTime&time=${endTime}`
     })
-  }, [onSelectEndTime]);
+  }, [endTime]);
+
+  const selectCategory = useCallback(e => {
+    onSelectActivityCategory(activityCategories[e.detail.value]);
+  }, [onSelectActivityCategory]);
   return (
     <View className={style.Root}>
       <View className={style.Header}>
@@ -58,10 +69,10 @@ export default ({
         </View>
       </View>
       <AtList>
-        <Picker rangeKey={titleKey} mode="selector" range={activityCategories} onChange={onSelectActivityCategory}>
+        <Picker rangeKey={categoryKey} mode="selector" range={activityCategories} onChange={selectCategory}>
           <AtListItem
             iconInfo={{ size: 25, color: '#78A4FA', value: 'list' }}
-            title={selectedCategory[rangeKey] || '请选择活动类型...'}
+            title={selectedCategory[categoryKey] || '请选择活动类型...'}
           />
         </Picker>
         <View className={style.InputWrapper}>
@@ -74,19 +85,22 @@ export default ({
             name='title'
             title=''
             type='text'
+            value={title}
+            onBlur={onChangeTitle}
             placeholder='活动主题(不超过35个字)'
           />
         </View>
         
         <AtListItem
-          onClick={this.navToTimePicker}
+          onClick={selectStartTime}
           iconInfo={{ size: 25, color: '#78A4FA', value: 'clock', }}
-          title={startTime}
+          title={`${dayjs(startTime).format(dayTimePattern)} 开始`}
           arrow="right"
         />
         <AtListItem
+          onClick={selectEndTime}
           iconInfo={{ size: 25, color: '#78A4FA', value: 'clock', }}
-          title={endTime || "活动结束时间(选填)"}
+          title={endTime ? `${dayjs(endTime).format(dayTimePattern)} 结束` : "活动结束时间(选填)"}
           arrow="right"
         />
         <AtListItem

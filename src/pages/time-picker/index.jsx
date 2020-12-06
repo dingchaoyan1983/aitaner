@@ -5,7 +5,7 @@ import dayjs from 'dayjs';
 import { Picker} from '@tarojs/components';
 import { AtList, AtListItem, AtButton } from "taro-ui";
 import style from './index.less';
-import { navigateBack } from '../../utils';
+import { navigateBack, isEmpty } from '../../utils';
 
 class Index extends Component {
   constructor(...args) {
@@ -18,8 +18,12 @@ class Index extends Component {
 
   componentDidShow(...args) {
     const {time, key} = getCurrentInstance().router.params;
+    let prcessedTime = (new Date()).getTime()
+    if (!isEmpty(time)) {
+      prcessedTime = Number(time);
+    }
     this.key = key;
-    const date = dayjs(Number(time));
+    const date = dayjs(prcessedTime);
     const dateSel = date.format('YYYY-MM-DD');
     const timeSel = date.format('HH:mm');
     this.setState({
