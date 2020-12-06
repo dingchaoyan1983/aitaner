@@ -2,7 +2,8 @@ export default {
   pages: [
     'pages/index/index',
     'pages/publish/index',
-    'pages/mine/index'
+    'pages/mine/index',
+    'pages/time-picker/index'
   ],
   window: {
     backgroundTextStyle: 'light',

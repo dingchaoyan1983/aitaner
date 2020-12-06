@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text } from '@tarojs/components';
-import style from  './index.less';
 import { AtAvatar, AtIcon } from 'taro-ui'
+import style from  './index.less';
 
 export default ({
   avatar = 'https://jdc.jd.com/img/200',

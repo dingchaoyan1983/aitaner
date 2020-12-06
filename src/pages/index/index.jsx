@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
-import Taro from '@tarojs/api';
 import { connect } from 'react-redux';
-import { View, ScrollView, Image } from '@tarojs/components';
-import { AtSearchBar } from 'taro-ui';
-import { Swiper, SwiperItem } from '@tarojs/components';
-import { AtTabs, AtTabsPane } from 'taro-ui';
+import Taro from '@tarojs/api';
+import { View, ScrollView, Image, Swiper, SwiperItem } from '@tarojs/components';
+import { AtTabs, AtTabsPane, AtSearchBar } from 'taro-ui';
 import style from  './index.less';
 import Message from '../../components/message';
 
@@ -69,7 +67,7 @@ class Index extends Component {
           circular
           autoplay>
           <SwiperItem>
-            <Image className={style.Image} src="https://resources.betalpha.com/letter/research1.jpg"></Image>
+            <Image mode="aspectFill" className={style.Image} src="https://resources.betalpha.com/letter/research1.jpg"></Image>
           </SwiperItem>
           {/* <SwiperItem>
             <Image className={style.Image} src="https://resources.betalpha.com/letter/research2.jpg"></Image>
