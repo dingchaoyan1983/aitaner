@@ -3,7 +3,8 @@ export default {
     'pages/index/index',
     'pages/publish/index',
     'pages/mine/index',
-    'pages/time-picker/index'
+    'pages/time-picker/index',
+    'pages/editor/index'
   ],
   window: {
     backgroundTextStyle: 'light',

@@ -56,6 +56,12 @@ class Index extends Component {
     });
   }
 
+  onChooseLocation = (location) => {
+    this.setState({
+      ...location,
+    });
+  }
+
   render () {
     const {
       title,
@@ -63,6 +69,9 @@ class Index extends Component {
       selectedCategory,
       startTime,
       endTime,
+      latitude,
+      longitude,
+      address,
     } = this.state;
 
     return (
@@ -77,6 +86,10 @@ class Index extends Component {
         onSelectStartTime={this.onSelectStartTime}
         endTime={endTime}
         onSelectEndTime={this.onSelectEndTime}
+        latitude={latitude}
+        longitude={longitude}
+        address={address}
+        onChooseLocation={this.onChooseLocation}
       />
     )
   }

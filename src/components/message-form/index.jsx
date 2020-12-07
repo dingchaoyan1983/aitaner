@@ -23,6 +23,10 @@ export default ({
   onSelectEndTime=identity,
   title,
   onChangeTitle=identity,
+  latitude,
+  longitude,
+  address,
+  onChooseLocation,
 }) => {
   useDidShow(() => {
     getCallbackParams((params) => {
@@ -44,10 +48,31 @@ export default ({
       url: `/pages/time-picker/index?key=endTime&time=${endTime}`
     })
   }, [endTime]);
-
   const selectCategory = useCallback(e => {
     onSelectActivityCategory(activityCategories[e.detail.value]);
   }, [onSelectActivityCategory]);
+  const selectLocation = useCallback(() => {
+    Taro.chooseLocation({
+      latitude,
+      longitude,
+      success({
+        address,
+        latitude,
+        longitude,
+      }) {
+        onChooseLocation({
+          address,
+          latitude,
+          longitude,
+        });
+      },
+    })
+  }, [onChooseLocation, longitude, latitude]);
+  const editDesc = useCallback(() => {
+    Taro.navigateTo({
+      url: `/pages/editor/index`
+    })
+  }, []);
   return (
     <View className={style.Root}>
       <View className={style.Header}>
@@ -86,7 +111,7 @@ export default ({
             title=''
             type='text'
             value={title}
-            onBlur={onChangeTitle}
+            onChange={onChangeTitle}
             placeholder='活动主题(不超过35个字)'
           />
         </View>
@@ -104,8 +129,15 @@ export default ({
           arrow="right"
         />
         <AtListItem
+          onClick={selectLocation}
           iconInfo={{ size: 25, color: '#78A4FA', value: 'map-pin', }}
-          title="活动地点"
+          title={address || '活动地点' }
+          arrow="right"
+        />
+        <AtListItem
+          onClick={editDesc}
+          iconInfo={{ size: 25, color: '#78A4FA', value: 'map-pin', }}
+          title={address || '活动地点' }
           arrow="right"
         />
       </AtList>
