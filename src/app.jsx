@@ -8,6 +8,8 @@ import './app.global.less'
 
 const store = configStore()
 
+window.store = store;
+
 class App extends Component {
   componentDidMount () {}
 

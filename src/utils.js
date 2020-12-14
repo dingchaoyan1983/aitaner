@@ -24,3 +24,5 @@ export const getCallbackParams = (cb) => {
     cb(callback);
   }
 }
+
+export const actionTypeCreator = (prefix) => (actionType) => `${prefix}#${actionType}`;

@@ -1,9 +1,8 @@
-
 import React, { useCallback, useRef } from 'react';
 import { useDidShow } from '@tarojs/taro';
 import Taro from '@tarojs/api';
 import dayjs from 'dayjs';
-import { View, Image, Swiper, SwiperItem, Picker} from '@tarojs/components';
+import { View, Image, Swiper, SwiperItem, Picker, RichText } from '@tarojs/components';
 import { AtList, AtListItem, AtInput, AtIcon } from "taro-ui";
 import ImagePicker from '../image-picker';
 import { identity, dayTimePattern, getCallbackParams } from '../../utils';
@@ -27,6 +26,10 @@ export default ({
   longitude,
   address,
   onChooseLocation,
+  desc,
+  onEditDesc = identity,
+  applicantsLimit,
+  onChangeApplicantsLimit  = identity,
 }) => {
   useDidShow(() => {
     getCallbackParams((params) => {
@@ -35,6 +38,10 @@ export default ({
       }
       if (params.key === 'endTime') {
         onSelectEndTime(params.value);
+      }
+
+      if (params.key === 'desc') {
+        onEditDesc(params.value);
       }
     });
   });
@@ -70,9 +77,9 @@ export default ({
   }, [onChooseLocation, longitude, latitude]);
   const editDesc = useCallback(() => {
     Taro.navigateTo({
-      url: `/pages/editor/index`
+      url: `/pages/editor/index?html=${encodeURIComponent(desc)}`
     })
-  }, []);
+  }, [desc]);
   return (
     <View className={style.Root}>
       <View className={style.Header}>
@@ -134,12 +141,24 @@ export default ({
           title={address || '活动地点' }
           arrow="right"
         />
-        <AtListItem
-          onClick={editDesc}
-          iconInfo={{ size: 25, color: '#78A4FA', value: 'map-pin', }}
-          title={address || '活动地点' }
-          arrow="right"
-        />
+        <View className={style.InputWrapper}>
+          <View>
+            <AtIcon value='user' size='25' color='#78A4FA'></AtIcon>
+          </View>
+          <AtInput
+            border={false}
+            className={style.Input}
+            name='applicantsLimit'
+            title=''
+            type='text'
+            value={applicantsLimit}
+            onChange={onChangeApplicantsLimit}
+            placeholder='报名人数限制'
+          />
+        </View>
+        <View className={style.RichText} onClick={editDesc}>
+          <RichText nodes={desc ? `<p class="richtext_wrapper">${desc}</p>` : '输入活动介绍'} />
+        </View>
       </AtList>
     </View>
   );

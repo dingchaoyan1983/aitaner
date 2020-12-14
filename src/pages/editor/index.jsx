@@ -1,31 +1,49 @@
-import React, { Component } from 'react';
-import { View, Editor } from '@tarojs/components';
-import Taro from '@tarojs/api';
+import React, { Component, createRef } from 'react';
+import { View } from '@tarojs/components';
+import { AtButton } from 'taro-ui';
 import { getCurrentInstance } from '@tarojs/taro';
-import dayjs from 'dayjs';
-import { Picker} from '@tarojs/components';
-import { AtList, AtListItem, AtButton } from "taro-ui";
+import Taro from '@tarojs/api';
+import Editor from '../../components/editor';
 import style from './index.less';
 import { navigateBack, isEmpty } from '../../utils';
 
+const FIXED_HEIGHT = 65;
 class Index extends Component {
-  editorReady = e => {
-    Taro.createSelectorQuery().select('#editor').context((res) => {
-      this.editorCtx = res.context
-    }).exec()
+  constructor(...args) {
+    super(...args);
+    this.editorRef = createRef();
+    this.sysInfo = Taro.getSystemInfoSync();
+    this.editorHeight = this.sysInfo.windowHeight - FIXED_HEIGHT;
+    this.state = {
+      html: '',
+    }
   }
 
+  componentDidShow() {
+    const { html } = getCurrentInstance().router.params;
+    if (!isEmpty(html)) {
+      this.setState({
+        html: decodeURIComponent(html),
+      });
+    }
+  }
+
+  getHtml = () => {
+    this.editorRef.current.getEditorContext().getContents({
+      success: ({ html }) => {
+        navigateBack({
+          key: 'desc',
+          value: html,
+        });
+      }
+    })
+  }
   render () {
     return (
-      <Editor
-        id='editor'
-        className='editor'
-        showImgToolbar
-        showImgSize
-        showImgResize
-        placeholder="请输入"
-        onReady={this.editorReady}
-      />
+      <View className={style.Root}>
+        <Editor ref={this.editorRef} html={this.state.html} style={{height: this.editorHeight}} />
+        <AtButton type='primary' onClick={this.getHtml}>确定</AtButton>
+      </View>
     )
   }
 }
