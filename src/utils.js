@@ -26,3 +26,18 @@ export const getCallbackParams = (cb) => {
 }
 
 export const actionTypeCreator = (prefix) => (actionType) => `${prefix}#${actionType}`;
+
+let flag401 = false;
+
+export const navToLogin = () => {
+  if (!flag401) {
+    flag401 = true;
+    Taro.navigateTo({
+      url: '/pages/login/index'
+    })
+  }
+}
+
+export const resetFlag401 = () => {
+  flag401 = false;
+}

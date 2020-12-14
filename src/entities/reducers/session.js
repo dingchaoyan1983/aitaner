@@ -1,6 +1,6 @@
 import { handleActions } from 'redux-actions';
 import Taro from '@tarojs/taro';
-import { LOGIN, INIT_SESSION } from '../actions/session';
+import { LOGIN } from '../actions/session';
 
 export default handleActions({
   [LOGIN]: (state, { payload: { header } }) => {
@@ -11,10 +11,6 @@ export default handleActions({
       ...header,
     };
   },
-  [INIT_SESSION]: () => ({
-    Signature: Taro.getStorageSync('Signature'),
-    ['User-Info']: Taro.getStorageSync('User-Info'),
-  })
 }, {
   Signature: Taro.getStorageSync('Signature'),
   ['User-Info']: Taro.getStorageSync('User-Info'),

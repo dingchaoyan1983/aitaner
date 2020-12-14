@@ -1,4 +1,5 @@
 import Taro from '@tarojs/taro';
+import { navToLogin } from '../utils';
 
 let countDown = 0;
 
@@ -31,21 +32,28 @@ export default ({ dispatch, getState }) => next => action => {
             ...(requestMeta.header || {}),
           },
           success: (result = {}) => {
-            Taro.showToast({
-              title: JSON.stringify(result.header),
-            });
-            let payload = result.data;
-            if (includeHeader) {
-              payload = {
-                body: result.data,
-                header: result.header
+            const { statusCode, data, header } = result;
+            if (statusCode >= 200 && statusCode < 300) {
+              let payload = data;
+              if (includeHeader) {
+                payload = {
+                  body: data,
+                  header,
+                };
               }
+              next({
+                ...action,
+                payload,
+              });
+              resolve(result);
+            } else if (statusCode === 401) {
+              // 需要登录 跳转到登录界面
+              navToLogin();
+            } else {
+              reject(data);
+              //显示错误信息
             }
-            next({
-              ...action,
-              payload,
-            });
-            resolve(result);
+            
           },
           fail: (error) => {
             reject(error);

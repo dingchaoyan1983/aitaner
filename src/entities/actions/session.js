@@ -5,9 +5,7 @@ import { post } from '../request';
 const actionType = actionTypeCreator('src/entities/actions/session.js');
 
 export const LOGIN = actionType('LOGIN');
-export const INIT_SESSION = actionType('INIT_SESSION');
 
-export const initSession = createAction(INIT_SESSION);
 export const login = createAction(
   LOGIN,
   (payload) => post(

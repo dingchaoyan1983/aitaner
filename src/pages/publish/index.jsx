@@ -1,18 +1,22 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 // import { add, minus, asyncAdd } from '../../actions/counter';
 import { login } from '../../entities/actions/session';
+import { publish } from '../../entities/actions/fairs';
 import { View } from '@tarojs/components';
 import Taro from '@tarojs/taro';
 import MessageForm from '../../components/message-form';
+import AuthComponent from '../../auth-component';
 import { AtButton } from 'taro-ui';
+
 
 @connect(({ counter }) => ({
   counter
 }), {
   login,
+  publish,
 })
-class Index extends Component {
+class Index extends AuthComponent {
   constructor(...args) {
     super(...args);    
     this.state = {
@@ -71,19 +75,9 @@ class Index extends Component {
     });
   }
 
-  publish = ({ detail: userInfo }) => {
-    const { login } = this.props;
-    Taro.login({
-      success: function (res) {
-        if (res.code) {
-          console.log(res.code);
-          //发起网络请求
-          login({ code: res.code });
-        } else {
-          console.log('登录失败！' + res.errMsg)
-        }
-      }
-    })
+  publish = () => {
+    const { publish } = this.props;
+    publish();
   }
 
   render () {
@@ -122,7 +116,7 @@ class Index extends Component {
           applicantsLimit={applicantsLimit}
           onChangeApplicantsLimit={this.onChangeApplicantsLimit}
         />
-        <AtButton type='primary' openType="getUserInfo" onGetUserInfo={this.publish}>发布</AtButton>
+        <AtButton type='primary' onClick={this.publish}>发布</AtButton>
       </View>
     )
   }
