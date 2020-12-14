@@ -1,6 +1,6 @@
 import React, { useCallback, useState, useRef, forwardRef, useImperativeHandle } from 'react';
 import classnames from 'classnames';
-import Taro from '@tarojs/api';
+import Taro from '@tarojs/taro';
 import { View, Editor } from '@tarojs/components';
 import styles from './index.less';
 

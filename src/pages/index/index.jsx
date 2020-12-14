@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import Taro from '@tarojs/api';
+import Taro from '@tarojs/taro';
 import { View, ScrollView, Image, Swiper, SwiperItem } from '@tarojs/components';
 import { AtTabs, AtTabsPane, AtSearchBar } from 'taro-ui';
 import style from  './index.less';

@@ -1,19 +1,17 @@
 import React, { Component } from 'react';
 import { Provider } from 'react-redux';
 import 'taro-ui/dist/style/index.scss'; // 全局引入一次即可
-
 import configStore from './store'
-
-import './app.global.less'
+import './app.global.less';
 
 const store = configStore()
 
-window.store = store;
-
 class App extends Component {
-  componentDidMount () {}
+  componentDidMount () {
+  }
 
-  componentDidShow () {}
+  componentDidShow () {
+  }
 
   componentDidHide () {}
 

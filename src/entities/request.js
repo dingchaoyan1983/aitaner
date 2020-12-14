@@ -1,10 +1,11 @@
+const BASE_URL = 'http://120.78.173.75:18080';
 
 const commonFetch = (method, url, data, options = {}, header = {}) => {
   return {
     isApi: true,
     requestMeta: {
       method,
-      url,
+      url: `${BASE_URL}${url}`,
       data,
       header,
     },

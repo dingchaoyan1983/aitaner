@@ -1,8 +1,8 @@
-import Taro from '@tarojs/api';
+import Taro from '@tarojs/taro';
 
 let countDown = 0;
 
-export default ({ dispatch }) => next => action => {
+export default ({ dispatch, getState }) => next => action => {
   const { payload } = action;
   if (payload) {
     const { isApi, requestMeta = {}, options = {} } = payload || {};
@@ -16,10 +16,11 @@ export default ({ dispatch }) => next => action => {
       let header = {
         ['content-type']: 'application/json',
       };
-      const { needAuth = true } = options;
+      const { needAuth = true, includeHeader } = options;
       if (needAuth) {
-        header['Signature'] = Taro.getStorageSync('Signature');
-        header['User-Info'] = Taro.getStorageSync('User-Info');
+        const state = getState();
+        header['Signature'] = state.entities.session.Signature;
+        header['User-Info'] = state.entities.session['User-Info'];
       }
       
       return new Promise((resolve, reject) => {
@@ -30,9 +31,19 @@ export default ({ dispatch }) => next => action => {
             ...(requestMeta.header || {}),
           },
           success: (result = {}) => {
+            Taro.showToast({
+              title: JSON.stringify(result.header),
+            });
+            let payload = result.data;
+            if (includeHeader) {
+              payload = {
+                body: result.data,
+                header: result.header
+              }
+            }
             next({
               ...action,
-              payload: result.data,
+              payload,
             });
             resolve(result);
           },

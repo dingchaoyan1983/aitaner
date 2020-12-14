@@ -1,4 +1,4 @@
-import Taro from '@tarojs/api';
+import Taro from '@tarojs/taro';
 
 export const identity = (_) => _;
 export const dayPattern = 'YYYY-MM-DD';

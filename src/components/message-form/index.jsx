@@ -1,6 +1,6 @@
 import React, { useCallback, useRef } from 'react';
 import { useDidShow } from '@tarojs/taro';
-import Taro from '@tarojs/api';
+import Taro from '@tarojs/taro';
 import dayjs from 'dayjs';
 import { View, Image, Swiper, SwiperItem, Picker, RichText } from '@tarojs/components';
 import { AtList, AtListItem, AtInput, AtIcon } from "taro-ui";

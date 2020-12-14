@@ -3,17 +3,15 @@ import { connect } from 'react-redux';
 // import { add, minus, asyncAdd } from '../../actions/counter';
 import { login } from '../../entities/actions/session';
 import { View } from '@tarojs/components';
-import Taro from '@tarojs/api';
+import Taro from '@tarojs/taro';
 import MessageForm from '../../components/message-form';
 import { AtButton } from 'taro-ui';
 
 @connect(({ counter }) => ({
   counter
-}), (dispatch) => ({
-  login () {
-    dispatch(login())
-  },
-}))
+}), {
+  login,
+})
 class Index extends Component {
   constructor(...args) {
     super(...args);    

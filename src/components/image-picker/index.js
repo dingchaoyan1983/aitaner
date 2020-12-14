@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react';
 import { View } from '@tarojs/components';
-import Taro from '@tarojs/api';
+import Taro from '@tarojs/taro';
 import { AtIcon } from 'taro-ui';
 import style from './index.less';
 import { identity } from '../../utils';
