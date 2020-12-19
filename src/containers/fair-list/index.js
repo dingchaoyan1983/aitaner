@@ -9,8 +9,10 @@ import { fetchFairs as fetchMessagesAction } from '../../entities/actions/fairs'
 export default ({
   height,
 }) => {
-  const messages = useSelector((state) => state.entities.fairs.data);
+  const entity = useSelector((state) => state.entities.fairs);
   const fetchMessages = useActions(fetchMessagesAction);
+  const messages = entity.data;
+  const count = entity.count;
 
-  return <Messages messages={messages} fetchMessages={fetchMessages} height={height} />
+  return <Messages messages={messages} fetchMessages={fetchMessages} height={height} count={count} />
 }

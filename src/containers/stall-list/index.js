@@ -9,8 +9,10 @@ import { fetchStalls as fetchMessagesAction } from '../../entities/actions/stall
 export default ({
   height,
 }) => {
-  const messages = useSelector((state) => state.entities.stalls.data);
+  const entity = useSelector((state) => state.entities.stalls);
   const fetchMessages = useActions(fetchMessagesAction);
+  const messages = entity.data;
+  const count = entity.count;
 
-  return <Messages messages={messages} fetchMessages={fetchMessages} height={height} />
+  return <Messages messages={messages} fetchMessages={fetchMessages} height={height} count={count} />
 }

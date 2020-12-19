@@ -9,9 +9,11 @@ import { fetchHires as fetchMessagesAction } from '../../entities/actions/hires'
 export default ({
   height,
 }) => {
-  const messages = useSelector((state) => state.entities.hires.data);
+  const entity = useSelector((state) => state.entities.hires);
   const fetchMessages = useActions(fetchMessagesAction);
+  const messages = entity.data;
+  const count = entity.count;
 
-  return <Messages messages={messages} fetchMessages={fetchMessages} height={height} />
+  return <Messages messages={messages} fetchMessages={fetchMessages} height={height} count={count} />
 
 }

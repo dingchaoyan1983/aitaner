@@ -1,33 +1,21 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
 import Taro from '@tarojs/taro';
-import { View, ScrollView, Image, Swiper, SwiperItem } from '@tarojs/components';
+import { View, Image, Swiper, SwiperItem } from '@tarojs/components';
 import { AtTabs, AtTabsPane, AtSearchBar } from 'taro-ui';
 import style from  './index.less';
-import Message from '../../components/message';
-import { fetchFairs } from '../../entities/actions/fairs';
-import { fetchHires } from '../../entities/actions/hires';
-import { fetchStalls } from '../../entities/actions/stalls';
 import { activityCategories } from '../../constants';
-import FairList from '../../containers/fair-list';
-import HireList from '../../containers/hire-list';
-import StallList from '../../containers/stall-list';
 
-const indexCategories = [{ id: 'hotspot', name: '热点' }, ...activityCategories];
+const indexCategories = [{ id: 'hotspot', name: '热点', component: null }, ...activityCategories];
 const FIXED_HEIGHT = 240;
 
-@connect(({ counter }) => ({
-  counter
-}),{
-  fetchFairs,
-  fetchHires,
-  fetchStalls,
-})
 class Index extends Component {
   constructor(...args) {
     super(...args);
     this.sysInfo = Taro.getSystemInfoSync();
-    this.tabList = indexCategories.map((item) => ({ title: item.name }));
+    this.tabList = indexCategories.map((item) => ({
+      title: item.name,
+    }));
+    this.components = indexCategories.map((item) => item.component)
     this.scrollHeight = this.sysInfo.windowHeight - FIXED_HEIGHT;
     this.state = {
       current: 0,
@@ -80,22 +68,15 @@ class Index extends Component {
           current={this.state.current}
           onClick={this.handleClick}
         >
-          <AtTabsPane current={this.state.current} index={0}>
-            <ScrollView scrollY style={{height: this.scrollHeight}}>
-              {
-                [0,1,2,3,4,5,6,7,8,9].map(() => <Message title="[热门]xxxxxxx"/>)
-              }
-            </ScrollView>
-          </AtTabsPane>
-          <AtTabsPane current={this.state.current} index={1}>
-            <FairList height={this.scrollHeight} />
-          </AtTabsPane>
-          <AtTabsPane current={this.state.current} index={2}>
-            <HireList height={this.scrollHeight} />
-          </AtTabsPane>
-          <AtTabsPane current={this.state.current} index={3}>
-            <StallList height={this.scrollHeight} />
-          </AtTabsPane>
+          {
+            this.components.map((component, index) => (
+              <AtTabsPane current={this.state.current} index={index}>
+                {
+                  component ? React.createElement(component) : null
+                }
+              </AtTabsPane>
+            ))
+          }
         </AtTabs>
       </View>
     )
