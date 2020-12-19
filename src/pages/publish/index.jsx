@@ -23,7 +23,7 @@ class Index extends AuthComponent {
       startTime: (new Date()).getTime(),
       images: [],
       selectedCategory: {},
-      desc: '',
+      description: '',
     };
   }
 
@@ -39,9 +39,9 @@ class Index extends AuthComponent {
     });
   }
 
-  onChangeTitle = (title) => {
+  onChangeName = (name) => {
     this.setState({
-      title,
+      name,
     });
   }
 
@@ -65,7 +65,7 @@ class Index extends AuthComponent {
 
   onEditDesc = (html) => {
     this.setState({
-      desc: html,
+      description: html,
     });
   }
 
@@ -82,23 +82,23 @@ class Index extends AuthComponent {
 
   render () {
     const {
-      title,
+      name,
       images,
       selectedCategory,
       startTime,
       endTime,
       latitude,
       longitude,
-      address,
-      desc,
+      location,
+      description,
       applicantsLimit,
     } = this.state;
 
     return (
       <View>
         <MessageForm
-          title={title}
-          onChangeTitle={this.onChangeTitle}
+          name={name}
+          onChangeName={this.onChangeName}
           images={images}
           onChooseImages={this.onChooseImages}
           selectedCategory={selectedCategory}
@@ -109,9 +109,9 @@ class Index extends AuthComponent {
           onSelectEndTime={this.onSelectEndTime}
           latitude={latitude}
           longitude={longitude}
-          address={address}
+          location={location}
           onChooseLocation={this.onChooseLocation}
-          desc={desc}
+          description={description}
           onEditDesc={this.onEditDesc}
           applicantsLimit={applicantsLimit}
           onChangeApplicantsLimit={this.onChangeApplicantsLimit}

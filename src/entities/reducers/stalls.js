@@ -1,5 +1,5 @@
 import { handleActions } from 'redux-actions';
-import { PUBLISH, FETCH_RECORDS } from '../actions/fairs';
+import { PUBLISH, FETCH_RECORDS } from '../actions/stalls';
 
 export default handleActions({
   [PUBLISH]: (state, { payload }) => {

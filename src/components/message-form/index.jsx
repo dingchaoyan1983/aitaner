@@ -1,4 +1,4 @@
-import React, { useCallback, useRef } from 'react';
+import React, { useCallback } from 'react';
 import { useDidShow } from '@tarojs/taro';
 import Taro from '@tarojs/taro';
 import dayjs from 'dayjs';
@@ -7,8 +7,7 @@ import { AtList, AtListItem, AtInput, AtIcon } from "taro-ui";
 import ImagePicker from '../image-picker';
 import { identity, dayTimePattern, getCallbackParams } from '../../utils';
 import style from './index.less';
-
-const activityCategories = [{ id: 'fairs', name: '摊位招租' }, { id: 'recruitments', name: '兼职招聘' }, { id: 'stalls', name: '摊位转租' }];
+import { activityCategories } from '../../constants';
 
 export default ({
   categoryKey='name',
@@ -20,13 +19,13 @@ export default ({
   endTime,
   onSelectStartTime=identity,
   onSelectEndTime=identity,
-  title,
-  onChangeTitle=identity,
+  name,
+  onChangeName=identity,
   latitude,
   longitude,
-  address,
+  location,
   onChooseLocation,
-  desc,
+  description,
   onEditDesc = identity,
   applicantsLimit,
   onChangeApplicantsLimit  = identity,
@@ -68,7 +67,7 @@ export default ({
         longitude,
       }) {
         onChooseLocation({
-          address,
+          location: address,
           latitude,
           longitude,
         });
@@ -77,9 +76,9 @@ export default ({
   }, [onChooseLocation, longitude, latitude]);
   const editDesc = useCallback(() => {
     Taro.navigateTo({
-      url: `/pages/editor/index?html=${encodeURIComponent(desc)}`
+      url: `/pages/editor/index?html=${encodeURIComponent(description)}`
     })
-  }, [desc]);
+  }, [description]);
   return (
     <View className={style.Root}>
       <View className={style.Header}>
@@ -117,8 +116,8 @@ export default ({
             name='title'
             title=''
             type='text'
-            value={title}
-            onChange={onChangeTitle}
+            value={name}
+            onChange={onChangeName}
             placeholder='活动主题(不超过35个字)'
           />
         </View>
@@ -138,7 +137,7 @@ export default ({
         <AtListItem
           onClick={selectLocation}
           iconInfo={{ size: 25, color: '#78A4FA', value: 'map-pin', }}
-          title={address || '活动地点' }
+          title={location || '活动地点' }
           arrow="right"
         />
         <View className={style.InputWrapper}>
@@ -157,7 +156,7 @@ export default ({
           />
         </View>
         <View className={style.RichText} onClick={editDesc}>
-          <RichText nodes={desc ? `<p class="richtext_wrapper">${desc}</p>` : '输入活动介绍'} />
+          <RichText nodes={description ? `<p class="richtext_wrapper">${description}</p>` : '输入活动介绍'} />
         </View>
       </AtList>
     </View>

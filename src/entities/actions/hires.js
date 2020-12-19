@@ -2,15 +2,15 @@ import { createAction } from 'redux-actions';
 import { actionTypeCreator } from '../../utils';
 import { get, post } from '../request';
 
-const actionType = actionTypeCreator('src/entities/actions/fairs.js');
+const actionType = actionTypeCreator('src/entities/actions/hires.js');
 
 export const PUBLISH = actionType('PUBLISH');
 export const FETCH_RECORDS = actionType('FETCH_RECORDS');
 
-export const fetchFairs = createAction(
+export const fetchHires = createAction(
   FETCH_RECORDS,
   (payload) => get(
-    '/chutan/rest/fairs',
+    '/chutan/rest/hires',
     payload,
     {
       needAuth: false,
@@ -20,6 +20,6 @@ export const fetchFairs = createAction(
 export const publish = createAction(
   PUBLISH,
   (payload) => post(
-    '/chutan/rest/fairs',
+    '/chutan/rest/hires',
     payload,
   ));
