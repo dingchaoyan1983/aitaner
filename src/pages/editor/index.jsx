@@ -5,7 +5,7 @@ import { getCurrentInstance } from '@tarojs/taro';
 import Taro from '@tarojs/taro';
 import Editor from '../../components/editor';
 import style from './index.less';
-import { navigateBack, isEmpty } from '../../utils';
+import { receiveMessageOnLoad, navigateBack, isEmpty } from '../../utils';
 
 const FIXED_HEIGHT = 65;
 class Index extends Component {
@@ -19,11 +19,18 @@ class Index extends Component {
     }
   }
 
-  componentDidShow() {
-    const { html } = getCurrentInstance().router.params;
+  onLoad() {
+    const { pid } = getCurrentInstance().router.params;
+    Taro.eventCenter.once(`send:message:${pid}`, (...args) => {
+      this.initHtml(...args);
+    });
+    Taro.eventCenter.trigger(`openingPage:ready:${pid}`)
+  }
+
+  initHtml(html) {
     if (!isEmpty(html)) {
       this.setState({
-        html: decodeURIComponent(html),
+        html,
       });
     }
   }
@@ -31,10 +38,7 @@ class Index extends Component {
   getHtml = () => {
     this.editorRef.current.getEditorContext().getContents({
       success: ({ html }) => {
-        navigateBack({
-          key: 'desc',
-          value: html,
-        });
+        navigateBack(html);
       }
     })
   }

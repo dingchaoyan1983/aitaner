@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { View } from '@tarojs/components';
-import { getCurrentInstance } from '@tarojs/taro';
+import Taro, { getCurrentInstance } from '@tarojs/taro';
 import dayjs from 'dayjs';
 import { Picker} from '@tarojs/components';
 import { AtList, AtListItem, AtButton } from "taro-ui";
@@ -16,13 +16,19 @@ class Index extends Component {
     };
   }
 
-  componentDidShow(...args) {
-    const {time, key} = getCurrentInstance().router.params;
+  onLoad() {
+    const { pid } = getCurrentInstance().router.params;
+    Taro.eventCenter.once(`send:message:${pid}`, (...args) => {
+      this.initTime(...args);
+    });
+    Taro.eventCenter.trigger(`openingPage:ready:${pid}`)
+  }
+
+  initTime(time) {
     let prcessedTime = (new Date()).getTime()
     if (!isEmpty(time)) {
       prcessedTime = Number(time);
     }
-    this.key = key;
     const date = dayjs(prcessedTime);
     const dateSel = date.format('YYYY-MM-DD');
     const timeSel = date.format('HH:mm');
@@ -46,10 +52,7 @@ class Index extends Component {
 
   onConfirm = () => {
     const time = dayjs(`${this.state.dateSel} ${this.state.timeSel}`, 'YYYY-MM-DD HH:ss').toDate().getTime();
-    navigateBack({
-      key: this.key,
-      value: time,
-    });
+    navigateBack(time);
   }
 
   render () {

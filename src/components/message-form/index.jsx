@@ -1,11 +1,10 @@
 import React, { useCallback } from 'react';
-import { useDidShow } from '@tarojs/taro';
 import Taro from '@tarojs/taro';
 import dayjs from 'dayjs';
 import { View, Image, Swiper, SwiperItem, Picker, RichText } from '@tarojs/components';
 import { AtList, AtListItem, AtInput, AtIcon } from "taro-ui";
 import ImagePicker from '../image-picker';
-import { identity, dayTimePattern, getCallbackParams } from '../../utils';
+import { identity, dayTimePattern, navigateTo } from '../../utils';
 import style from './index.less';
 import { activityCategories } from '../../constants';
 
@@ -30,30 +29,12 @@ export default ({
   applicantsLimit,
   onChangeApplicantsLimit  = identity,
 }) => {
-  useDidShow(() => {
-    getCallbackParams((params) => {
-      if (params.key === 'startTime') {
-        onSelectStartTime(params.value);
-      }
-      if (params.key === 'endTime') {
-        onSelectEndTime(params.value);
-      }
-
-      if (params.key === 'desc') {
-        onEditDesc(params.value);
-      }
-    });
-  });
   const selectStartTime = useCallback(() => {
-    Taro.navigateTo({
-      url: `/pages/time-picker/index?key=startTime&time=${startTime}`
-    })
-  }, [startTime]);
+    navigateTo('/pages/time-picker/index', startTime, onSelectStartTime)
+  }, [startTime, onSelectStartTime]);
   const selectEndTime = useCallback(() => {
-    Taro.navigateTo({
-      url: `/pages/time-picker/index?key=endTime&time=${endTime}`
-    })
-  }, [endTime]);
+    navigateTo('/pages/time-picker/index', endTime, onSelectEndTime);
+  }, [endTime, onSelectEndTime]);
   const selectCategory = useCallback(e => {
     onSelectActivityCategory(activityCategories[e.detail.value]);
   }, [onSelectActivityCategory]);
@@ -75,10 +56,8 @@ export default ({
     })
   }, [onChooseLocation, longitude, latitude]);
   const editDesc = useCallback(() => {
-    Taro.navigateTo({
-      url: `/pages/editor/index?html=${encodeURIComponent(description)}`
-    })
-  }, [description]);
+    navigateTo('/pages/editor/index', description, onEditDesc);
+  }, [description, onEditDesc]);
   return (
     <View className={style.Root}>
       <View className={style.Header}>
