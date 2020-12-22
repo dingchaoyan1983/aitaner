@@ -28,6 +28,10 @@ export default ({
   onEditDesc = identity,
   applicantsLimit,
   onChangeApplicantsLimit  = identity,
+  charge,
+  onChangeCharge = identity,
+  tel,
+  onChangeTel = identity,
 }) => {
   const selectStartTime = useCallback(() => {
     navigateTo('/pages/time-picker/index', startTime, onSelectStartTime)
@@ -121,6 +125,36 @@ export default ({
         />
         <View className={style.InputWrapper}>
           <View>
+            <AtIcon value='shopping-cart' size='25' color='#78A4FA'></AtIcon>
+          </View>
+          <AtInput
+            border={false}
+            className={style.Input}
+            name='charge'
+            title=''
+            type='number'
+            value={charge}
+            onChange={onChangeCharge}
+            placeholder='摊位费用(元 / 天)'
+          />
+        </View>
+        <View className={style.InputWrapper}>
+          <View>
+            <AtIcon value='phone' size='25' color='#78A4FA'></AtIcon>
+          </View>
+          <AtInput
+            border={false}
+            className={style.Input}
+            name='tel'
+            title=''
+            type='number'
+            value={tel}
+            onChange={onChangeTel}
+            placeholder='联系方式(非常主要)'
+          />
+        </View>
+        <View className={style.InputWrapper}>
+          <View>
             <AtIcon value='user' size='25' color='#78A4FA'></AtIcon>
           </View>
           <AtInput
@@ -128,7 +162,7 @@ export default ({
             className={style.Input}
             name='applicantsLimit'
             title=''
-            type='text'
+            type='number'
             value={applicantsLimit}
             onChange={onChangeApplicantsLimit}
             placeholder='报名人数限制'

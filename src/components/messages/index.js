@@ -26,7 +26,7 @@ export default ({
   });
   useEffect(() => {
     const count = countRef.current;
-    if (!count || count > page * limit) {
+    if (!count || Math.ceil(count / limit) >= page) {
       setLoading(true);
       fetchMessages({
         page,
@@ -41,7 +41,7 @@ export default ({
   }, [page, limit, keyword, countRef, setLoading]);
   const onScrollToLower = useCallback(() => {
     const count = countRef.current;
-    if (!loading && count / limit > page) {
+    if (!loading && Math.ceil(count / limit) >= page) {
       setPage(page + 1);
     }
   }, [setPage, limit, countRef, page, loading]);

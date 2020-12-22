@@ -59,7 +59,7 @@ class Index extends Component {
             this.components.map((component, index) => (
               <AtTabsPane current={this.state.current} index={index}>
                 {
-                  component ? React.createElement(component) : null
+                  component ? React.createElement(component, { height: this.scrollHeight  }) : null
                 }
               </AtTabsPane>
             ))

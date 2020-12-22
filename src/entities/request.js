@@ -1,4 +1,4 @@
-const BASE_URL = 'http://120.78.173.75:18080';
+const BASE_URL = 'https://www.chutan.cc:18443';
 
 const commonFetch = (method, url, data, options = {}, header = {}) => {
   return {

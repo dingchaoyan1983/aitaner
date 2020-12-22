@@ -1,11 +1,11 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import Taro from '@tarojs/taro';
 import { publish } from '../../entities/actions/fairs';
 import { View } from '@tarojs/components';
 import MessageForm from '../../components/message-form';
 import AuthComponent from '../../auth-component';
 import { AtButton } from 'taro-ui';
-
 
 @connect(undefined, {
   publish,
@@ -69,9 +69,54 @@ class Index extends AuthComponent {
     });
   }
 
-  publish = () => {
+  onChangeCharge = (charge) => {
+    this.setState({
+      charge,
+    });
+  }
+
+
+  onChangeTel = (tel) => {
+    this.setState({
+      tel,
+    });
+  }
+
+  publish = async () => {
     const { publish } = this.props;
-    publish();
+    const {
+      images,
+      name = '',
+      applicantsLimit = -1,
+      description,
+      latitude,
+      location,
+      longitude,
+      startTime,
+      endTime = -1,
+      charge,
+      tel,
+    } = this.state;
+    try {
+      await publish({
+        images,
+        name,
+        applicantsLimit,
+        description,
+        latitude,
+        location,
+        longitude,
+        startTime,
+        endTime,
+        charge,
+        tel,
+      });
+    } catch (e) {
+      Taro.showToast({
+        title: '发布失败',
+        icon: 'none',
+      });
+    }
   }
 
   render () {
@@ -86,6 +131,8 @@ class Index extends AuthComponent {
       location,
       description,
       applicantsLimit,
+      charge,
+      tel,
     } = this.state;
 
     return (
@@ -109,8 +156,14 @@ class Index extends AuthComponent {
           onEditDesc={this.onEditDesc}
           applicantsLimit={applicantsLimit}
           onChangeApplicantsLimit={this.onChangeApplicantsLimit}
+          charge={charge}
+          onChangeCharge={this.onChangeCharge}
+          tel={tel}
+          onChangeTel={this.onChangeTel}
         />
-        <AtButton type='primary' onClick={this.publish}>发布</AtButton>
+        <View>
+          <AtButton type='primary' onClick={this.publish}>发布</AtButton>
+        </View>
       </View>
     )
   }
