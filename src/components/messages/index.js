@@ -5,9 +5,11 @@ import React, {
   useCallback,
   useRef,
 } from 'react';
+import { useDidShow } from '@tarojs/taro';
 import { ScrollView } from '@tarojs/components';
 import Message from '../message';
 import { identity } from '../../utils';
+import style from './index.less';
 
 export default ({
   count,
@@ -46,9 +48,9 @@ export default ({
     }
   }, [setPage, limit, countRef, page, loading]);
   return (
-    <ScrollView scrollY style={heightStyle} onScrollToLower={onScrollToLower}>
+    <ScrollView className={style.ScrollView} scrollY style={heightStyle} onScrollToLower={onScrollToLower}>
       {
-         messages.map((message) => (<Message {...message} />))
+        messages.map((message) => (<Message {...message} />))
       }
     </ScrollView>
   );

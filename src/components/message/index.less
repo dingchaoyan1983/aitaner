@@ -7,6 +7,8 @@
     .at-avatar--large {
       width: 100Px;
       height: 100Px;
+      flex: 0 0 auto;
+      border: 1Px solid #f0f0f0;
     }
   }
 }
@@ -29,27 +31,28 @@
 }
 
 .Footer {
-  font-size: 10Px;
+  font-size: 12Px;
   display: flex;
   justify-content: space-between;
 
-  &>View {
-    flex-basis: 33%;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    text-align: center;
+  // &>View {
+  //   flex-basis: 33%;
+  //   overflow: hidden;
+  //   text-overflow: ellipsis;
+  //   white-space: nowrap;
+  //   text-align: center;
 
-    &:first-of-type {
-      text-align: left;
-    }
+  //   &:first-of-type {
+  //     text-align: left;
+  //   }
 
-    &:last-of-type {
-      text-align: right;
-    }
-  }
+  //   &:last-of-type {
+  //     text-align: right;
+  //   }
+  // }
 }
 
 .RegNum {
   color: goldenrod;
+  margin-right: 5Px;
 }

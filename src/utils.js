@@ -5,7 +5,7 @@ export const dayPattern = 'YYYY-MM-DD';
 export const timePattern = 'HH:mm';
 export const dayTimePattern = `${dayPattern} ${timePattern}`;
 export const isEmpty = (value) => {
-  return value === undefined || value === null;
+  return value === undefined || value === null || value === '';
 }
 
 // export const navigateBack = (params) => {

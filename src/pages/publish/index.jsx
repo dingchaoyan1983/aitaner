@@ -1,11 +1,13 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import Taro from '@tarojs/taro';
+import { AtButton, AtMessage } from 'taro-ui';
 import { publish } from '../../entities/actions/fairs';
 import { View } from '@tarojs/components';
 import MessageForm from '../../components/message-form';
 import AuthComponent from '../../auth-component';
-import { AtButton } from 'taro-ui';
+import { isEmpty } from '../../utils';
+import style from './index.less';
 
 @connect(undefined, {
   publish,
@@ -23,7 +25,15 @@ class Index extends AuthComponent {
 
   onChooseImages = (images) => {
     this.setState({
-      images,
+      images: [...this.state.images, ...images],
+    });
+  }
+
+  onRemoveImage = (index) => {
+    const images = this.state.images;
+    images.splice(index, 1);
+    this.setState({
+      images: [...images]
     });
   }
 
@@ -82,6 +92,74 @@ class Index extends AuthComponent {
     });
   }
 
+  validate = () => {
+    const {
+      selectedCategory,
+      name,
+      tel,
+      location,
+      charge,
+    } = this.state;
+    if (Object.keys(selectedCategory).length === 0) {
+      Taro.atMessage({
+        message: '请选择发布类型',
+        type: 'error',
+      });
+      return;
+    }
+
+    if (isEmpty(name)) {
+      Taro.atMessage({
+        message: '请填写标题',
+        type: 'error',
+      });
+      return;
+    }
+
+    if (isEmpty(location)) {
+      Taro.atMessage({
+        message: '请填写地点',
+        type: 'error',
+      });
+      return;
+    }
+
+    if (isEmpty(charge)) {
+      Taro.atMessage({
+        message: '请填写摊位费用',
+        type: 'error',
+      });
+      return;
+    }
+
+    if (isEmpty(tel)) {
+      Taro.atMessage({
+        message: '请填写手机号码',
+        type: 'error',
+      });
+      return;
+    }
+
+    return true;
+  }
+
+  reset = () => {
+    this.setState({
+      startTime: (new Date()).getTime(),
+      images: [],
+      selectedCategory: {},
+      description: '',
+      tel: undefined,
+      charge: undefined,
+      location: undefined,
+      name: '',
+      applicantsLimit: undefined,
+      latitude: undefined,
+      longitude: undefined,
+      endTime: undefined,
+    })
+  }
+
   publish = async () => {
     const { publish } = this.props;
     const {
@@ -98,23 +176,32 @@ class Index extends AuthComponent {
       tel,
     } = this.state;
     try {
-      await publish({
-        images,
-        name,
-        applicantsLimit,
-        description,
-        latitude,
-        location,
-        longitude,
-        startTime,
-        endTime,
-        charge,
-        tel,
-      });
+      if (this.validate()) {
+        await publish({
+          showUrls: images,
+          name,
+          applicantsLimit,
+          description,
+          latitude,
+          location,
+          longitude,
+          startTime,
+          endTime,
+          charge,
+          tel,
+        });
+        Taro.showToast({
+          title: '发布成功',
+          icon: 'success',
+          duration: 5000,
+        });
+        this.reset();
+      }
     } catch (e) {
       Taro.showToast({
         title: '发布失败',
         icon: 'none',
+        duration: 5000,
       });
     }
   }
@@ -136,12 +223,14 @@ class Index extends AuthComponent {
     } = this.state;
 
     return (
-      <View>
+      <View className={style.Root}>
+        <AtMessage />
         <MessageForm
           name={name}
           onChangeName={this.onChangeName}
           images={images}
           onChooseImages={this.onChooseImages}
+          onRemoveImage={this.onRemoveImage}
           selectedCategory={selectedCategory}
           onSelectActivityCategory={this.onSelectActivityCategory}
           startTime={startTime}
@@ -161,7 +250,7 @@ class Index extends AuthComponent {
           tel={tel}
           onChangeTel={this.onChangeTel}
         />
-        <View>
+        <View className={style.PublishButton}>
           <AtButton type='primary' onClick={this.publish}>发布</AtButton>
         </View>
       </View>

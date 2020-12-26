@@ -35,6 +35,11 @@ class Index extends Component {
     });
   }
 
+  onPullDownRefresh = () =>{
+    console.log('refresh');
+  }
+
+
   render () {
     return (
       <View className={style.Index}>

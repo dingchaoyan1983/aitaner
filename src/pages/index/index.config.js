@@ -1,3 +1,4 @@
 export default {
-  navigationBarTitleText: '爱摊儿'
+  navigationBarTitleText: '爱摊儿',
+  enablePullDownRefresh: true,
 }

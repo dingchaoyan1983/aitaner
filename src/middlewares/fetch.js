@@ -41,11 +41,11 @@ export default ({ dispatch, getState }) => next => action => {
                   header,
                 };
               }
+              resolve(result);
               next({
                 ...action,
                 payload,
               });
-              resolve(result);
             } else if (statusCode === 401) {
               // 需要登录 跳转到登录界面
               navToLogin();

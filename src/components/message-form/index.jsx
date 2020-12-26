@@ -2,8 +2,9 @@ import React, { useCallback } from 'react';
 import Taro from '@tarojs/taro';
 import dayjs from 'dayjs';
 import { View, Image, Swiper, SwiperItem, Picker, RichText } from '@tarojs/components';
-import { AtList, AtListItem, AtInput, AtIcon } from "taro-ui";
+import { AtList, AtListItem, AtInput, AtIcon, AtButton } from "taro-ui";
 import ImagePicker from '../image-picker';
+import ImageRemover from '../image-remover';
 import { identity, dayTimePattern, navigateTo } from '../../utils';
 import style from './index.less';
 import { activityCategories } from '../../constants';
@@ -12,6 +13,7 @@ export default ({
   categoryKey='name',
   images=[],
   onChooseImages=identity,
+  onRemoveImage = identity,
   selectedCategory = {},
   onSelectActivityCategory=identity,
   startTime,
@@ -71,9 +73,14 @@ export default ({
           autoplay
         >
             {
-              images.map((imagePath) => (
+              images.map((imagePath, index) => (
                 <SwiperItem>
-                  <Image mode="aspectFill" className={style.Image} src={imagePath}></Image>
+                  <View className={style.ImageWrapper}>
+                    <Image mode="aspectFill" className={style.Image} src={imagePath}></Image>
+                    <View className={style.RemoveImageBtn}>
+                      <ImageRemover index={index} onRemoveImage={onRemoveImage}/>
+                    </View>
+                  </View>
                 </SwiperItem>
               ))
             }

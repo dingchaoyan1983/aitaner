@@ -24,7 +24,10 @@ class Index extends Component {
     Taro.login({
       success: async ({ code }) => {
         if (code) {
-          await this.props.login({ code });
+          await this.props.login({
+            code,
+            ...userInfo,
+          });
           Taro.showToast({
             title: '登录成功',
             icon: 'success',
