@@ -1,18 +1,23 @@
-import React, { useMemo } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import { View, Text } from '@tarojs/components';
 import dayjs from 'dayjs';
 import { AtAvatar, AtIcon } from 'taro-ui'
 import style from  './index.less';
 import defaultAvatar from '../../assets/200.png';
+import { navigateTo } from '../../utils';
 
 export default ({
-  showUrls = [],
-  name = '',
-  owner = {},
-  location = '',
-  startTime = '',
-  applicantsCount = 0,
+  messageType = 'fairs',
+  message = {}
 }) => {
+  const {
+    showUrls = [],
+    name = '',
+    owner = {},
+    location = '',
+    startTime = '',
+    applicantsCount = 0,
+  } = message;
   const avatarUrl = useMemo(() => {
     if (showUrls && showUrls.length > 0) {
       return showUrls[0];
@@ -20,8 +25,12 @@ export default ({
 
     return defaultAvatar;
   }, [showUrls]);
+
+  const navigateToDetail = useCallback(() => {
+    navigateTo('/pages/participant/index', message);
+  }, [messageType, message]);
   return (
-    <View className={style.Root}>
+    <View className={style.Root} onClick={navigateToDetail}>
       <AtAvatar size="large" image={avatarUrl} className={style.Image}/>
       <View className={style.Right}>
         <View className={style.Title}>{name}</View>

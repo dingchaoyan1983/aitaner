@@ -1,0 +1,101 @@
+
+.Root {
+  flex-direction: column;
+  width: 100%;
+
+  :global {
+    .at-list__item::after {
+      left: 0 !important;
+    }
+
+    .at-list__item {
+      padding-left: 0;
+    }
+
+  }
+}
+
+.RichText {
+  padding: 10Px 0;
+}
+
+.Content {
+  padding: 10Px;
+}
+
+.TitleWrapper {
+  padding: 10Px 0;
+}
+
+.Sponsor{
+  padding: 10Px 0;
+}
+.Title {
+  font-size: 16Px;
+  font-weight: bold;
+  padding: 0 0 10Px 0;
+}
+
+.SubTitle {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12Px;
+}
+
+.Image {
+  width: 100%;
+}
+
+.Header {
+  position: relative;
+}
+
+.PickerWrapper {
+  position: absolute;
+  right: 20Px;
+  bottom: 20Px;
+}
+
+.InputWrapper {
+  padding: 24rpx 24rpx;
+  display: flex;
+  align-items: center;
+  position: relative;
+
+  &::after {
+    content: '';
+    position: absolute;
+    transform-origin: center;
+    box-sizing: border-box;
+    pointer-events: none;
+    top: auto;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    transform: scaleY(0.5);
+    border-bottom: 1PX solid #d6e4ef;
+  }
+}
+
+.Input {
+  flex: auto;
+  padding: 0;
+  margin-left: 25rpx;
+}
+
+.RichText {
+  min-height: 50Px;
+  display: flex;
+  align-items: center;
+}
+
+.ImageWrapper {
+  position: relative;
+  height: 100%;
+}
+
+.RemoveImageBtn {
+  position: absolute;
+  right: 65Px;
+  bottom: 20Px;
+}

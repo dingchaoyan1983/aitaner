@@ -1,8 +1,7 @@
 import React, { Component, createRef } from 'react';
 import { View } from '@tarojs/components';
 import { AtButton } from 'taro-ui';
-import { getCurrentInstance } from '@tarojs/taro';
-import Taro from '@tarojs/taro';
+import Taro, { getCurrentInstance } from '@tarojs/taro';
 import Editor from '../../components/editor';
 import style from './index.less';
 import { receiveMessageOnLoad, navigateBack, isEmpty } from '../../utils';

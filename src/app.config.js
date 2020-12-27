@@ -6,7 +6,8 @@ export default {
     'pages/time-picker/index',
     'pages/editor/index',
     'pages/login/index',
-    'pages/signup/index'
+    'pages/signup/index',
+    'pages/participant/index'
   ],
   window: {
     backgroundTextStyle: 'light',

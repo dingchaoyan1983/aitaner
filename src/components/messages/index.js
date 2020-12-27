@@ -50,7 +50,7 @@ export default ({
   return (
     <ScrollView className={style.ScrollView} scrollY style={heightStyle} onScrollToLower={onScrollToLower}>
       {
-        messages.map((message) => (<Message {...message} />))
+        messages.map((message) => (<Message message={message} />))
       }
     </ScrollView>
   );
