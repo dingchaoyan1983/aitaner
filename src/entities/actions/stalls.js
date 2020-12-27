@@ -6,7 +6,9 @@ const actionType = actionTypeCreator('src/entities/actions/stalls.js');
 
 export const PUBLISH = actionType('PUBLISH');
 export const FETCH_RECORDS = actionType('FETCH_RECORDS');
+export const CLEAR_RECORDS = actionType('CLEAR_RECORDS');
 
+export const clearStalls = createAction(CLEAR_RECORDS);
 export const fetchStalls = createAction(
   FETCH_RECORDS,
   (payload) => get(

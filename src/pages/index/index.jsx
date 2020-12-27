@@ -6,7 +6,7 @@ import style from  './index.less';
 import { activityCategories } from '../../constants';
 
 const indexCategories = [{ id: 'hotspot', name: '热点', component: null }, ...activityCategories];
-const FIXED_HEIGHT = 240;
+const FIXED_HEIGHT = 60;
 
 class Index extends Component {
   constructor(...args) {
@@ -19,7 +19,6 @@ class Index extends Component {
     this.scrollHeight = this.sysInfo.windowHeight - FIXED_HEIGHT;
     this.state = {
       current: 0,
-      keywords: ''
     }
   }
 
@@ -43,18 +42,6 @@ class Index extends Component {
   render () {
     return (
       <View className={style.Index}>
-        <AtSearchBar
-          value={this.state.keywords}
-          placeholder="请输入关键字查询信息..."
-          onChange={this.onChangeKeywords}
-        />
-        <Swiper
-          circular
-          autoplay>
-          <SwiperItem>
-            <Image mode="aspectFill" className={style.Image} src="https://resources.betalpha.com/letter/research1.jpg"></Image>
-          </SwiperItem>
-        </Swiper>
         <AtTabs
           tabList={this.tabList}
           current={this.state.current}

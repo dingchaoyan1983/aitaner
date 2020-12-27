@@ -1,5 +1,5 @@
 import { handleActions } from 'redux-actions';
-import { PUBLISH, FETCH_RECORDS } from '../actions/hires';
+import { PUBLISH, FETCH_RECORDS, CLEAR_RECORDS } from '../actions/hires';
 
 export default handleActions({
   [PUBLISH]: (state, { payload }) => {
@@ -12,5 +12,10 @@ export default handleActions({
     ...state,
     count: payload.count,
     data: [...(state.data || []), ...payload.data]
-  })
+  }),
+  [CLEAR_RECORDS]: (state) => ({
+    ...state,
+    count: undefined,
+    data: [],
+  }),
 }, {});
