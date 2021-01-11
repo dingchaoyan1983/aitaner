@@ -21,26 +21,27 @@ class Index extends Component {
   componentDidHide () { }
 
   login = ({ detail: { userInfo } }) => {
-    Taro.login({
-      success: async ({ code }) => {
-        if (code) {
-          await this.props.login({
-            code,
-            ...userInfo,
-          });
-          Taro.showToast({
-            title: '登录成功',
-            icon: 'success',
-            success: () => {
-              Taro.navigateBack();
-            }
-          })
-        } else {
-          console.log('登录失败！' + res.errMsg)
+    if (userInfo) {
+      Taro.login({
+        success: async ({ code }) => {
+          if (code) {
+            await this.props.login({
+              code,
+              ...userInfo,
+            });
+            Taro.showToast({
+              title: '登录成功',
+              icon: 'success',
+              success: () => {
+                Taro.navigateBack();
+              }
+            })
+          } else {
+            console.log('登录失败！' + res.errMsg)
+          }
         }
-      }
-    })
-    console.log(userInfo);
+      })
+    }
   }
 
   render () {
